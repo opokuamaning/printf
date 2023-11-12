@@ -63,5 +63,12 @@ int _printf(const char *format, ...)
 					}
 			}
 		}
-	}i
+		else
+		{
+			write(1, format, 1);
+			count ++;
+		}
+	}
+	va_end(args);
+	return(count);
 }
