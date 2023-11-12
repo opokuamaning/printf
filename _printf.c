@@ -14,50 +14,42 @@ int _printf(const char *format, ...)
 	/* Initialise the argument list with the format */
 	va_start(args, format);
 	/* This count tracks the number of characters we print */
-	for (; *format; format++)
+	while(*format)
 	{
-		if (*format == '%')
+		if(*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
 		{
-			format++;
-			switch (*format)
+			int num = va_arg(args, int);
+			int temp = num;
+
+			/* Count the number of digits */
+			int digits = 0;
+			do
 			{
-				case 'c':
-					{
-						int character;
+				temp /= 10;
+				digits++;
+			}	
+			while(temp != 0);
 
-						character = va_arg(args, int);
-						write(1, &character, 1);
-						count++;
-						break;
-					}
+			/* Convert each digit to a character adn wrtie to stdout */
+			temp = num;
 
-				case 's':
-					{
-						char *str = va_arg(args, char *);
-						for (; *str; str++)
-						{
-							write(1, str, 1);
-							count++;
-						}
-						break;
-					}
-				case '%':
-					write(1, "%", 1);
-					count++;
-					break;
-				default:
-					write(1, "%", 1);
-					if (*format)
-					{
-						write(1, format, 1);
-						count += 2;
-					}
+			do
+			{
+				char digit = '0' + temp % 10;
+				write(1, &digit, 1);
+				count++;
+				temp /= 10;
 			}
+			while(--digits != 0);
+
+			/* Move to the next charachter after the spcifier */
+			format += 2;
 		}
 		else
 		{
 			write(1, format, 1);
 			count++;
+			format++;
 		}
 	}
 	va_end(args);
