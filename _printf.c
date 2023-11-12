@@ -8,18 +8,15 @@
  */
 int _printf(const char *format, ...)
 {
+	int count = 0;
 	/* A list to hold arguments received */
 	va_list args;
 	/* Initialise the argument list with the format */
 	va_start(args, format);
 	/* This count tracks the number of characters we print */
-	int count;
-	count = 0;
-
-	/* loop through each charater in the format string */
 	for (; *format; format++)
 	{
-		if (*format == "%")
+		if (*format == '%')
 		{
 			format++;
 			switch (*format)
@@ -28,7 +25,7 @@ int _printf(const char *format, ...)
 					{
 						int character;
 
-						character = va_args(args, int);
+						character = va_arg(args, int);
 						write(1, &character, 1);
 						count++;
 						break;
@@ -36,30 +33,24 @@ int _printf(const char *format, ...)
 
 				case 's':
 					{
-						char *str;
-
-						str = va_args(args, char *str);
+						char *str = va_arg(args, char *);
 						for (; *str; str++)
 						{
 							write(1, str, 1);
-							count;
+							count++;
 						}
 						break;
 					}
 				case '%':
-					{
-						write(1, "%", 1);
-						count++;
-						break;
-					}
+					write(1, "%", 1);
+					count++;
+					break;
 				default:
+					write(1, "%", 1);
+					if (*format)
 					{
-						write(1, "%", 1);
-						if (*format)
-						{
-							write(1, format, 1);
-							count += 2;
-						}
+						write(1, format, 1);
+						count += 2;
 					}
 			}
 		}
