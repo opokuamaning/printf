@@ -33,6 +33,19 @@ int _printf(const char *format, ...)
 						count++;
 						break;
 					}
+
+				case 's':
+					{
+						char *str;
+
+						str = va_args(args, char *str);
+						for(; *str; str++)
+						{
+							write(1, str, 1);
+							count;
+						}
+						break;
+					}
 			}
 		}
 	}
