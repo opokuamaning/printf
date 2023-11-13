@@ -51,24 +51,24 @@ int _printf(const char *format, ...)
 				write(1, buffer, digits);
 				count += digits;
 			}
-			else
+			else if(*format == 'b')
 			{
 				unsigned int num = va_arg(args, unsigned int);
-				char buffer[33];
+				char binaryDigits[32];
 				int index = 0;
-				
+				int i;
+
 				do
 				{
-					buffer[index++] = (num % 2) + '0';
+					binaryDigits[index++] = num % 2;
 					num /= 2;
 				}
 				while(num != 0);
 
-				int i;
-
 				for(i = index - 1; i >= 0; i--)
 				{
-					write(1, &buffer[i], 1);
+					char binaryChar = binaryDigits[i] + '0';
+					write(1, &binaryChar, 1);
 					count++;
 				}
 
