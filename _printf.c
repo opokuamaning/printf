@@ -14,7 +14,7 @@ int _printf(const char *format, ...)
 	/* Initialise the argument list with the format */
 	va_start(args, format);
 	/* This count tracks the number of characters we print */
-	while(*format)
+	for (; *format; format++)
 	{
 		if(*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
 		{
@@ -22,34 +22,37 @@ int _printf(const char *format, ...)
 			int temp = num;
 
 			/* Count the number of digits */
-			int digits = 0;
-			do
+			int digits = (num == 0) ? 1 : 0;
+			
+			while(temp != 0)
 			{
 				temp /= 10;
 				digits++;
-			}	
-			while(temp != 0);
+			}
 
 			/* Convert each digit to a character adn wrtie to stdout */
 			temp = num;
 
-			do
+			for (; digits > 0; digits--)
 			{
 				char digit = '0' + temp % 10;
 				write(1, &digit, 1);
 				count++;
 				temp /= 10;
 			}
-			while(--digits != 0);
-
 			/* Move to the next charachter after the spcifier */
+			format++;
+		}
+		else if(*format == '%' && *(format + 1) == 'n')
+		{
+			int *nptr = va_arg(args, int *);
+			*nptr = count;
 			format += 2;
 		}
 		else
 		{
 			write(1, format, 1);
 			count++;
-			format++;
 		}
 	}
 	va_end(args);
