@@ -53,11 +53,33 @@ int _printf(const char *format, ...)
 			}
 			else
 			{
+				unsigned int num = va_arg(args, unsigned int);
+				char buffer[33];
+				int index = 0;
+				
+				do
+				{
+					buffer[index++] = (num % 2) + '0';
+					num /= 2;
+				}
+				while(num != 0);
+
+				int i;
+
+				for(i = index - 1; i >= 0; i--)
+				{
+					write(1, &buffer[i], 1);
+					count++;
+				}
+
+			}
+			else
+			{
 				write(1, "%", 1);
 				if(*format)
 				{
 					write(1, format, 1);
-					count += 2;
+				count += 2;
 				}
 			}
 
