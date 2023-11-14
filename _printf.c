@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdio.h>
-
+#include "main.h"
 /**
  * _printf - produces output according to a format
  * @format: identifier for all initial strings
