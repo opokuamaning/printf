@@ -4,7 +4,7 @@
  * @format: identifier for all initial strings
  * Return: strings with all indentifiers
  */
-int _printf(const char *format, ...)
+int print_f(const char *format, ...)
 {
         int count = 0;
         /* A list to hold arguments received */
