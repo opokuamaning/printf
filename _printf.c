@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
+
 /**
  * _printf - produces output according to a format
  * @format: identifier for all initial strings
@@ -50,7 +51,6 @@ int _printf(const char *format, ...)
                                 int num = va_arg(args, int);
                                 char buffer[12];
                                 int digits = sprintf(buffer, "%d", num);
-
                                 write(1, buffer, digits);
                                 count += digits;
                         }
